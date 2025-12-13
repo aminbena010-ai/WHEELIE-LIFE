@@ -377,6 +377,19 @@
             #nav-auth-container, #nav-links-user { display: none !important; } /* Ocultar en el menú colapsado */
         }
 
+        /* --- Estilos del Contador de Visitas --- */
+        #visit-counter {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: var(--color-text-dim);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.8em;
+            z-index: 1001;
+        }
+
         @media (max-width: 768px) {
             .game-title { font-size: 2.5em; }
             header { padding: 60px 0 30px; }
@@ -387,6 +400,11 @@
     </style>
 </head>
 <body>
+
+    <!-- Contador de Visitas -->
+    <div id="visit-counter">
+        <i class="fas fa-eye"></i> Visitas: <span id="visit-count-number">0</span>
+    </div>
 
     <nav>
         <div class="nav-container">
@@ -399,14 +417,6 @@
                 <a href="#" data-target="changelog-content"><i class="fas fa-history"></i> Historial</a>
             </div>
             <button class="nav-toggle" id="nav-toggle-btn"><i class="fas fa-bars"></i></button>
-            <div id="nav-auth-container" class="nav-links">
-                <a href="#" id="login-modal-btn"><i class="fas fa-sign-in-alt"></i> Iniciar Sesión</a>
-                <a href="#" id="register-modal-btn"><i class="fas fa-user-plus"></i> Registrarse</a>
-            </div>
-            <div id="nav-links-user" class="nav-links" style="display: none;">
-                <span id="user-greeting" style="color: var(--color-text-dim); margin-right: 15px;"></span>
-                <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Cerrar Sesión</a>
-            </div>
         </div>
     </nav>
 
@@ -589,40 +599,6 @@
         </section>
     </main>
 
-    <!-- Ventana Modal para Login/Registro -->
-    <div id="auth-modal" class="modal-overlay">
-        <div class="modal-content">
-            <span id="modal-close-btn" class="modal-close-btn">&times;</span>
-            
-            <!-- Contenedor del formulario de Login -->
-            <div id="login-form-container">
-                <h2 class="section-title" style="margin-bottom: 20px;">INICIAR SESIÓN</h2>
-                <form id="login-form" class="form-container" style="padding:0; background:none;">
-                    <div class="form-group">
-                        <label for="login-username">Nombre de Usuario</label>
-                        <input type="text" id="login-username" name="username" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="login-password">Contraseña</label>
-                        <input type="password" id="login-password" name="password" required>
-                    </div>
-                    <button type="submit" class="form-btn">Entrar</button>
-                </form>
-            </div>
-
-            <!-- Contenedor del formulario de Registro -->
-            <div id="register-form-container" style="display:none;">
-                <h2 class="section-title" style="margin-bottom: 20px;">CREAR CUENTA</h2>
-                <form id="register-form" class="form-container" style="padding:0; background:none;">
-                    <div class="form-group"><label for="register-username">Nombre de Usuario</label><input type="text" id="register-username" name="username" required></div>
-                    <div class="form-group"><label for="register-email">Correo Electrónico</label><input type="email" id="register-email" name="email" required></div>
-                    <div class="form-group"><label for="register-password">Contraseña</label><input type="password" id="register-password" name="password" required></div>
-                    <button type="submit" class="form-btn">Registrar</button>
-                </form>
-            </div>
-        </div>
-    </div>
-
 
     <script>
         // --- 1. DATOS DEL JUEGO (Extraídos de player.py) ---
@@ -657,9 +633,6 @@
             }
         ];
 
-        // --- 2. ESTADO DE LA APLICACIÓN ---
-        let currentUser = null; // null si no hay sesión iniciada, o un objeto {username: "..."}
-
         // --- 3. LÓGICA DE NAVEGACIÓN (SPA) ---
         function showSection(sectionId) {
             // 1. Ocultar todas las secciones de contenido
@@ -680,42 +653,6 @@
                     link.classList.add('active');
                 }
             });
-        }
-
-        // --- 4. GESTIÓN DE ESTADO DE SESIÓN (UI) ---
-        function updateUIForAuthState() {
-            const navAuth = document.getElementById('nav-auth-container');
-            const navUser = document.getElementById('nav-links-user');
-            const userGreeting = document.getElementById('user-greeting');
-
-            if (currentUser) { // Usuario ha iniciado sesión
-                navAuth.style.display = 'none';
-                navUser.style.display = 'flex';
-                userGreeting.textContent = `Hola, ${currentUser.username}`;
-            } else { // Usuario no ha iniciado sesión
-                navAuth.style.display = 'flex';
-                navUser.style.display = 'none';
-            }
-        }
-
-        // --- 5. LÓGICA DE LA VENTANA MODAL ---
-        function openModal(formToShow) {
-            const modal = document.getElementById('auth-modal');
-            const loginForm = document.getElementById('login-form-container');
-            const registerForm = document.getElementById('register-form-container');
-
-            if (formToShow === 'login') {
-                loginForm.style.display = 'block';
-                registerForm.style.display = 'none';
-            } else {
-                loginForm.style.display = 'none';
-                registerForm.style.display = 'block';
-            }
-            modal.classList.add('active');
-        }
-
-        function closeModal() {
-            document.getElementById('auth-modal').classList.remove('active');
         }
 
         // --- 6. FUNCIONES DE RENDERIZADO DE CONTENIDO ---
@@ -774,6 +711,16 @@
                 </div>
             `;
         }
+
+        // --- Función para el contador de visitas ---
+        function updateVisitCounter() {
+            let visits = localStorage.getItem('pageVisits');
+            visits = visits ? parseInt(visits) + 1 : 1;
+            localStorage.setItem('pageVisits', visits);
+            
+            const counterElement = document.getElementById('visit-count-number');
+            if (counterElement) counterElement.textContent = visits;
+        }
         
         // --- 7. INICIALIZACIÓN Y EVENTOS ---
         document.addEventListener('DOMContentLoaded', () => {
@@ -808,50 +755,6 @@
                 // (ya que no están dentro del menú colapsable)
             });
 
-            // --- Eventos de la Ventana Modal ---
-            document.getElementById('login-modal-btn').addEventListener('click', (e) => {
-                e.preventDefault();
-                openModal('login');
-            });
-            document.getElementById('register-modal-btn').addEventListener('click', (e) => {
-                e.preventDefault();
-                openModal('register');
-            });
-            document.getElementById('modal-close-btn').addEventListener('click', closeModal);
-            document.getElementById('auth-modal').addEventListener('click', (e) => {
-                if (e.target.id === 'auth-modal') { // Cierra si se hace clic en el fondo
-                    closeModal();
-                }
-            });
-
-            // Evento para el formulario de registro (simulado)
-            document.getElementById('register-form').addEventListener('submit', (e) => {
-                e.preventDefault();
-                const username = document.getElementById('register-username').value;
-                alert(`¡Registro exitoso para ${username}! Ahora, por favor, inicia sesión.`);
-                openModal('login'); // Cambia al formulario de login dentro del modal
-            });
-
-            // Evento para el formulario de login (simulado)
-            document.getElementById('login-form').addEventListener('submit', (e) => {
-                e.preventDefault();
-                const username = document.getElementById('login-username').value;
-                // Simulación de inicio de sesión exitoso
-                currentUser = { username: username };
-                closeModal(); // Cierra el modal
-                alert(`¡Bienvenido de nuevo, ${username}!`);
-                updateUIForAuthState();
-            });
-
-            // Evento para cerrar sesión
-            document.getElementById('logout-btn').addEventListener('click', (e) => {
-                e.preventDefault();
-                const username = currentUser.username;
-                currentUser = null;
-                alert(`¡Hasta pronto, ${username}!`);
-                updateUIForAuthState();
-            });
-
             // --- Evento para el botón de copiar ---
             document.getElementById('copy-btn').addEventListener('click', () => {
                 const command = document.getElementById('pip-command').innerText;
@@ -863,10 +766,9 @@
                 });
             });
 
-
             // Estado inicial de la UI al cargar la página
             showSection('download-content');
-            updateUIForAuthState();
+            updateVisitCounter();
         });
     </script>
 </body>
