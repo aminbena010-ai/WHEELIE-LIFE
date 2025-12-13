@@ -436,7 +436,7 @@
     <header>
         <h1 class="game-title">WHEELIE LIFE</h1>
         <p class="tagline color-accent fw-600"></p>
-        <p class="version-display"><i class="fas fa-code-branch"></i> Versión Estable: <span id="game-version">1.1.0</span></p>
+        <p class="version-display"><i class="fas fa-code-branch"></i> Versión Estable: <span id="game-version">1.1.1</span></p>
     </header>
 
     <main id="main-content-container">
@@ -526,19 +526,19 @@
                         </thead>
                         <tbody>
                             <tr>
+                                <td class="color-accent fw-bold">D</td>
+                                <td>Acelerar / Levantar</td>
+                                <td>Acelera la moto y levanta la rueda delantera.</td>
+                            </tr>
+                            <tr>
                                 <td class="color-accent fw-bold">W</td>
-                                <td>Inclinar hacia adelante</td>
-                                <td>Mueve el centro de masa para estabilizar el wheelie.</td>
+                                <td>Bloquear Ángulo</td>
+                                <td>Mantiene el ángulo actual del wheelie para estabilizarlo.</td>
                             </tr>
                             <tr>
-                                <td class="color-accent fw-bold">S</td>
-                                <td>Inclinar hacia atrás</td>
-                                <td>Contrarresta la caída hacia adelante.</td>
-                            </tr>
-                            <tr>
-                                <td><span class="color-accent fw-bold">A/D</span></td>
-                                <td>Aceleración/Frenado</td>
-                                <td>Controla el torque del motor. (Asumiendo que el código usa A/D o Izq/Der para movimiento.)</td>
+                                <td><span class="color-accent fw-bold">(Soltar Teclas)</span></td>
+                                <td>Bajar por Gravedad</td>
+                                <td>Si no se pulsa nada, la moto baja lentamente.</td>
                             </tr>
                         </tbody>
                     </table>
@@ -618,7 +618,7 @@
 
     <script>
         // --- 1. DATOS DEL JUEGO (Extraídos de player.py) ---
-        const CURRENT_GAME_VERSION = "1.1.0"; 
+        const CURRENT_GAME_VERSION = "1.1.1"; 
         
         const GAME_DATA = {
             "skins": {
@@ -738,15 +738,17 @@
             if (!localStorage.getItem('hasVisitedWheelieLife')) {
                 // Si es la primera vez, marca como visitado y registra el "hit"
                 localStorage.setItem('hasVisitedWheelieLife', 'true');
-                // Incrementa el contador en el servicio externo (no necesitamos esperar la respuesta)
-                fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`);
+                // Incrementa el contador en el servicio externo
+                try {
+                    await fetch(`https://api.counterapi.dev/v1/${namespace}/${key}/up`);
+                } catch (e) { console.error(e); }
             }
 
             // 2. Obtener el total de visitas y mostrarlo
             try {
-                const response = await fetch(`https://api.countapi.xyz/get/${namespace}/${key}`);
+                const response = await fetch(`https://api.counterapi.dev/v1/${namespace}/${key}`);
                 const data = await response.json();
-                if (counterElement) counterElement.textContent = data.value || 0;
+                if (counterElement) counterElement.textContent = data.count || 0;
             } catch (error) {
                 if (counterElement) counterElement.textContent = 'N/A';
                 console.error("Error al obtener el contador de visitas:", error);
@@ -754,29 +756,39 @@
         }
 
         // --- Función para el contador de descargas ---
-        function updateDownloadCounter(increment = false) {
+        async function updateDownloadCounter() {
             const namespace = 'wheelie-life-game';
             const key = 'windows-downloads';
             const counterElement = document.getElementById('download-count-number');
-            const apiUrl = `https://api.countapi.xyz/hit/${namespace}/${key}`;
-
-            if (increment) {
-                // Usar navigator.sendBeacon para garantizar que la petición se envíe
-                // antes de que el navegador inicie la descarga.
-                if (navigator.sendBeacon) {
-                    navigator.sendBeacon(apiUrl);
-                } else {
-                    // Fallback para navegadores antiguos (menos fiable)
-                    fetch(apiUrl, { keepalive: true });
-                }
-            }
-
-            // Obtener y mostrar el valor actual
+            
+            // Solo obtiene y muestra el valor actual
             try {
-                const response = await fetch(`https://api.countapi.xyz/get/${namespace}/${key}`);
+                const response = await fetch(`https://api.counterapi.dev/v1/${namespace}/${key}`);
                 const data = await response.json();
-                if (counterElement) counterElement.textContent = data.value || 0;
-            } catch (error) { /* No hacer nada si falla, simplemente no se muestra */ }
+                if (counterElement) counterElement.textContent = data.count || 0;
+            } catch (error) { 
+                if (counterElement) counterElement.textContent = 'N/A';
+            }
+        }
+
+        async function handleDownloadClick(event) {
+            event.preventDefault(); // 1. Evita que el enlace funcione por defecto
+            const downloadUrl = event.currentTarget.href;
+            const namespace = 'wheelie-life-game';
+            const key = 'windows-downloads';
+            const counterElement = document.getElementById('download-count-number');
+
+            try {
+                // 2. Llama a la API para incrementar y espera la respuesta
+                const response = await fetch(`https://api.counterapi.dev/v1/${namespace}/${key}/up`);
+                const data = await response.json();
+                if (counterElement) counterElement.textContent = data.count; // 3. Actualiza la UI
+            } catch (e) {
+                console.error(e);
+            } finally {
+                // 4. Inicia la descarga, incluso si la API falló
+                window.location.href = downloadUrl;
+            }
         }
         
         // --- 7. INICIALIZACIÓN Y EVENTOS ---
@@ -813,10 +825,7 @@
             });
 
             // --- Evento para el botón de descarga de Windows ---
-            document.getElementById('windows-download-btn').addEventListener('click', () => {
-                // Incrementa el contador de descargas cuando se hace clic
-                updateDownloadCounter(true);
-            });
+            document.getElementById('windows-download-btn').addEventListener('click', handleDownloadClick); // Corregido para usar solo un manejador
 
             // --- Evento para el botón de copiar ---
             document.getElementById('copy-btn').addEventListener('click', () => {
@@ -840,7 +849,7 @@
 
     <script>
         // --- 1. DATOS DEL JUEGO (Extraídos de player.py) ---
-        const CURRENT_GAME_VERSION = "1.1.0"; 
+        const CURRENT_GAME_VERSION = "1.1.1"; 
         
         const GAME_DATA = {
             "skins": {
