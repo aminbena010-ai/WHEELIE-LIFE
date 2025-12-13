@@ -713,13 +713,28 @@
         }
 
         // --- Función para el contador de visitas ---
-        function updateVisitCounter() {
-            let visits = localStorage.getItem('pageVisits');
-            visits = visits ? parseInt(visits) + 1 : 1;
-            localStorage.setItem('pageVisits', visits);
-            
+        async function updateVisitCounter() {
+            const namespace = 'wheelie-life-game'; // Un nombre único para tu proyecto
+            const key = 'unique-visitors';       // La clave que quieres contar
             const counterElement = document.getElementById('visit-count-number');
-            if (counterElement) counterElement.textContent = visits;
+
+            // 1. Comprobar si este navegador ya ha sido contado
+            if (!localStorage.getItem('hasVisitedWheelieLife')) {
+                // Si es la primera vez, marca como visitado y registra el "hit"
+                localStorage.setItem('hasVisitedWheelieLife', 'true');
+                // Incrementa el contador en el servicio externo (no necesitamos esperar la respuesta)
+                fetch(`https://api.countapi.xyz/hit/${namespace}/${key}`);
+            }
+
+            // 2. Obtener el total de visitas y mostrarlo
+            try {
+                const response = await fetch(`https://api.countapi.xyz/get/${namespace}/${key}`);
+                const data = await response.json();
+                if (counterElement) counterElement.textContent = data.value || 0;
+            } catch (error) {
+                if (counterElement) counterElement.textContent = 'N/A';
+                console.error("Error al obtener el contador de visitas:", error);
+            }
         }
         
         // --- 7. INICIALIZACIÓN Y EVENTOS ---
