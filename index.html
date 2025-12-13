@@ -279,6 +279,19 @@
             transform: translateY(-5px);
         }
 
+        /* Estilo para el contador de descargas */
+        .download-counter {
+            margin-top: 8px;
+            font-size: 0.8em;
+            color: var(--color-text-dim);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .os-download-item {
+            display: flex;
+            flex-direction: column;
+        }
         .os-btn.disabled {
             color: #666;
             cursor: not-allowed;
@@ -433,10 +446,13 @@
             <p class="text-center font-large">Obtén el proyecto completo en un paquete ZIP. Incluye todo el código fuente, los assets gráficos y de sonido, y el archivo de datos iniciales.</p>
             
             <div class="os-download-container">
-                <a href="https://drive.google.com/uc?export=download&id=1HHuHpnFQYaJsHSHflcPOE11r12ByEO6n" class="os-btn enabled" download="WheelieLife_v1.1.0.zip">
-                    <i class="fab fa-windows" style="color: #00A4EF;"></i>
-                    <span>Windows</span>
-                </a>
+                <div class="os-download-item">
+                    <a href="https://drive.google.com/uc?export=download&id=1HHuHpnFQYaJsHSHflcPOE11r12ByEO6n" id="windows-download-btn" class="os-btn enabled" download="WheelieLife_v1.1.0.zip">
+                        <i class="fab fa-windows" style="color: #00A4EF;"></i>
+                        <span>Windows</span>
+                    </a>
+                    <div class="download-counter"><i class="fas fa-download"></i> Descargas: <span id="download-count-number">0</span></div>
+                </div>
                 <a href="#" class="os-btn disabled">
                     <i class="fab fa-linux" style="color: #FCC624;"></i>
                     <span>Linux</span>
@@ -736,6 +752,32 @@
                 console.error("Error al obtener el contador de visitas:", error);
             }
         }
+
+        // --- Función para el contador de descargas ---
+        function updateDownloadCounter(increment = false) {
+            const namespace = 'wheelie-life-game';
+            const key = 'windows-downloads';
+            const counterElement = document.getElementById('download-count-number');
+            const apiUrl = `https://api.countapi.xyz/hit/${namespace}/${key}`;
+
+            if (increment) {
+                // Usar navigator.sendBeacon para garantizar que la petición se envíe
+                // antes de que el navegador inicie la descarga.
+                if (navigator.sendBeacon) {
+                    navigator.sendBeacon(apiUrl);
+                } else {
+                    // Fallback para navegadores antiguos (menos fiable)
+                    fetch(apiUrl, { keepalive: true });
+                }
+            }
+
+            // Obtener y mostrar el valor actual
+            try {
+                const response = await fetch(`https://api.countapi.xyz/get/${namespace}/${key}`);
+                const data = await response.json();
+                if (counterElement) counterElement.textContent = data.value || 0;
+            } catch (error) { /* No hacer nada si falla, simplemente no se muestra */ }
+        }
         
         // --- 7. INICIALIZACIÓN Y EVENTOS ---
         document.addEventListener('DOMContentLoaded', () => {
@@ -770,6 +812,12 @@
                 // (ya que no están dentro del menú colapsable)
             });
 
+            // --- Evento para el botón de descarga de Windows ---
+            document.getElementById('windows-download-btn').addEventListener('click', () => {
+                // Incrementa el contador de descargas cuando se hace clic
+                updateDownloadCounter(true);
+            });
+
             // --- Evento para el botón de copiar ---
             document.getElementById('copy-btn').addEventListener('click', () => {
                 const command = document.getElementById('pip-command').innerText;
@@ -784,6 +832,7 @@
             // Estado inicial de la UI al cargar la página
             showSection('download-content');
             updateVisitCounter();
+            updateDownloadCounter(); // Cargar el contador de descargas inicial
         });
     </script>
 </body>
