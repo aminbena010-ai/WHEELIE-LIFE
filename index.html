@@ -372,6 +372,37 @@
         .mt-2 { margin-top: 20px; }
         .mt-3 { margin-top: 30px; }
 
+        /* --- Estilos del Foro --- */
+        .comment-item {
+            background-color: #2F2F2F;
+            border: 1px solid var(--color-border);
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 15px;
+            animation: fadeIn 0.3s ease-out;
+        }
+        .comment-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #444;
+            padding-bottom: 5px;
+        }
+        .comment-author {
+            color: var(--color-accent);
+            font-weight: bold;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.8em;
+        }
+        .comment-date {
+            color: var(--color-text-dim);
+            font-size: 0.8em;
+        }
+        .comment-body {
+            color: var(--color-text-light);
+            white-space: pre-wrap; /* Respetar saltos de línea */
+        }
+
         /* --- Media Queries para Diseño Adaptable --- */
         @media (max-width: 992px) {
             .nav-links {
@@ -398,7 +429,6 @@
             background-color: rgba(0, 0, 0, 0.7);
             color: var(--color-text-dim);
             padding: 5px 10px;
-            border-radius: 5px;
             font-size: 0.8em;
             z-index: 1001;
         }
@@ -428,6 +458,7 @@
                 <a href="#" data-target="documentation-content"><i class="fas fa-book-open"></i> Documentación Técnica</a>
                 <a href="#" data-target="shop-content"><i class="fas fa-store"></i> Catálogo de Skins</a>
                 <a href="#" data-target="changelog-content"><i class="fas fa-history"></i> Historial</a>
+                <a href="#" data-target="forum-content"><i class="fas fa-comments"></i> Foro</a>
             </div>
             <button class="nav-toggle" id="nav-toggle-btn"><i class="fas fa-bars"></i></button>
         </div>
@@ -443,13 +474,13 @@
 
         <section id="download-content" class="info-section content-section active">
             <h2 class="section-title">DESCARGA E INSTALACIÓN <i class="fas fa-arrow-down"></i></h2>
-            <p class="text-center font-large">Obtén el proyecto completo en un paquete ZIP. Incluye todo el código fuente, los assets gráficos y de sonido, y el archivo de datos iniciales.</p>
+            <p class="text-center font-large">Obtén el juego completo en un archivo ZIP. Incluye el ejecutable (.exe) y todos los recursos necesarios. ¡Listo para jugar sin instalar Python!</p>
             
             <div class="os-download-container">
                 <div class="os-download-item">
                     <a href="https://drive.google.com/uc?export=download&id=1HHuHpnFQYaJsHSHflcPOE11r12ByEO6n" id="windows-download-btn" class="os-btn enabled" download="WheelieLife_v1.1.0.zip">
                         <i class="fab fa-windows" style="color: #00A4EF;"></i>
-                        <span>Windows</span>
+                        <span>Windows (.exe)</span>
                     </a>
                     <div class="download-counter"><i class="fas fa-download"></i> Descargas: <span id="download-count-number">0</span></div>
                 </div>
@@ -469,20 +500,20 @@
             
             <div class="grid-2 mt-3">
                 <div class="grid-item">
-                    <h3><i class="fas fa-terminal color-accent"></i> Requisitos de Entorno</h3>
+                    <h3><i class="fas fa-box-open color-accent"></i> Contenido del Paquete</h3>
                     <ul style="list-style:none; padding:0;" class="color-dim">
-                        <li><strong>Python 3.x:</strong> Necesario para ejecutar el código.</li>
-                        <li><strong>Pygame:</strong> Instalar con: <code id="pip-command" style="background:#0A0A0A; padding:2px 5px; border-radius:3px;">pip install pygame</code> <button id="copy-btn" title="Copiar al portapapeles" style="background:none; border:none; color:var(--color-accent); cursor:pointer;"><i class="fas fa-copy"></i></button></li>
-                        <li><strong>Sistema Operativo:</strong> Compatible con Windows, macOS y Linux.</li>
+                        <li><strong>WheelieLife.exe:</strong> El ejecutable principal del juego.</li>
+                        <li><strong>_internal/:</strong> Carpeta con recursos del sistema (No tocar).</li>
+                        <li><strong>assets/:</strong> Gráficos y sonidos.</li>
                     </ul>
                 </div>
                 <div class="grid-item">
-                    <h3><i class="fas fa-check-circle color-accent"></i> Proceso de Lanzamiento</h3>
+                    <h3><i class="fas fa-check-circle color-accent"></i> Instrucciones de Instalación</h3>
                     <ol style="list-style:decimal; padding-left:20px;" class="color-dim">
-                        <li>Descomprime el archivo ZIP.</li>
-                        <li>Abre tu terminal o consola.</li>
-                        <li>Navega al directorio del juego.</li>
-                        <li>Ejecuta el archivo del menú principal: <code style="background:#0A0A0A; padding:2px 5px; border-radius:3px;">python Menu.py</code></li>
+                        <li>Descarga el archivo <strong>WheelieLife_v1.1.0.zip</strong>.</li>
+                        <li>Descomprime el archivo en una carpeta de tu elección.</li>
+                        <li>Entra en la carpeta descomprimida.</li>
+                        <li>Haz doble clic en <strong>WheelieLife.exe</strong> (o Menu.exe) para iniciar.</li>
                     </ol>
                 </div>
             </div>
@@ -536,45 +567,59 @@
                                 <td>Mantiene el ángulo actual del wheelie para estabilizarlo.</td>
                             </tr>
                             <tr>
-                                <td><span class="color-accent fw-bold">(Soltar Teclas)</span></td>
-                                <td>Bajar por Gravedad</td>
-                                <td>Si no se pulsa nada, la moto baja lentamente.</td>
+                                <td class="color-accent fw-bold">L</td>
+                                <td>Logros</td>
+                                <td>Abre el panel de logros durante el juego.</td>
+                            </tr>
+                            <tr>
+                                <td class="color-accent fw-bold">ESC</td>
+                                <td>Menú / Salir</td>
+                                <td>Vuelve al menú principal o sale de las opciones.</td>
+                            </tr>
+                            <tr>
+                                <td class="color-accent fw-bold">Flechas</td>
+                                <td>Navegación</td>
+                                <td>Moverse por los menús (Arriba/Abajo/Izq/Der).</td>
+                            </tr>
+                            <tr>
+                                <td class="color-accent fw-bold">Enter</td>
+                                <td>Seleccionar</td>
+                                <td>Confirmar selección en menús.</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
                 <div>
-                    <h3><i class="fas fa-cogs"></i> Constantes Físicas Clave</h3>
-                    <p>El juego simula la física con los siguientes parámetros base (sujetos a bonificaciones):</p>
+                    <h3><i class="fas fa-trophy"></i> Logros Desbloqueables</h3>
+                    <p>Supera estos desafíos para demostrar tu habilidad:</p>
                     <table class="stats-table">
                         <thead>
-                            <tr><th>Parámetro</th><th>Valor Base</th><th>Unidad</th></tr>
+                            <tr><th>Logro</th><th>Descripción</th></tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td><strong>PIXELS_PER_METER</strong></td>
-                                <td class="color-success">25.0</td>
-                                <td>Píxeles/Metro</td>
+                                <td class="color-success">Novato del Asfalto</td>
+                                <td>Recorre 1.000 metros.</td>
                             </tr>
                             <tr>
-                                <td><strong>FPS</strong></td>
-                                <td class="color-success">60</td>
-                                <td>Frames/Segundo</td>
+                                <td class="color-success">Correcaminos</td>
+                                <td>Recorre 5.000 metros.</td>
                             </tr>
                             <tr>
-                                <td><strong>TIME_PER_FRAME</strong></td>
-                                <td class="color-success">~0.0167</td>
-                                <td>Segundos/Frame</td>
+                                <td class="color-info">Velocista</td>
+                                <td>Alcanza los 100 km/h.</td>
                             </tr>
                             <tr>
-                                <td><strong>ACELERACIÓN BASE</strong></td>
-                                <td class="color-success">4.0</td>
-                                <td>m/s²</td>
+                                <td class="color-info">Bala Humana</td>
+                                <td>Supera los 140 km/h.</td>
                             </tr>
                             <tr>
-                                <td><strong>DRAG_COEFFICIENT</strong></td>
-                                <td class="color-error">0.006</td>
-                                <td>Factor de Resistencia</td>
+                                <td class="color-error">Bautismo de Fuego</td>
+                                <td>Sufre tu primera caída.</td>
+                            </tr>
+                            <tr>
+                                <td class="color-accent">Ahorrador</td>
+                                <td>Acumula 1.000$ en total.</td>
                             </tr>
                         </tbody>
                     </table>
@@ -582,22 +627,35 @@
             </div>
             
             <article class="mt-3">
-                <h3 class="color-accent"><i class="fas fa-database"></i> Estructura de Datos Persistentes (`player_data.json`)</h3>
-                <p>El módulo `player.py` gestiona el guardado. La estructura esperada del archivo JSON es crucial para que el juego funcione sin errores de `KeyError: 'money'`:</p>
-                <div style="background-color: #0A0A0A; padding: 15px; border-radius: 4px; border: 1px solid var(--color-border); font-family: monospace; overflow-x: auto; color: #C6C6C6; font-size: 0.85em;">
-                    <pre>
-{
-    "money": 124, 
-    "equipped_skin": "negro",
-    "max_distance": 1021.616,
-    "skins_ownership": {
-        "negro": true,
-        "rojo": false,
-        // ... otras skins
-    }
-}
-                    </pre>
-                </div>
+                <h3 class="color-accent"><i class="fas fa-cogs"></i> Constantes Físicas Clave</h3>
+                <p>El juego simula la física con los siguientes parámetros base (sujetos a bonificaciones):</p>
+                <table class="stats-table">
+                    <thead>
+                        <tr><th>Parámetro</th><th>Valor Base</th><th>Unidad</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>PIXELS_PER_METER</strong></td>
+                            <td class="color-success">25.0</td>
+                            <td>Píxeles/Metro</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ACELERACIÓN BASE</strong></td>
+                            <td class="color-success">0.5</td>
+                            <td>m/s (por frame)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>VELOCIDAD MÁXIMA</strong></td>
+                            <td class="color-info">40.0</td>
+                            <td>m/s (~144 km/h)</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ÁNGULO MÁXIMO</strong></td>
+                            <td class="color-error">80.0</td>
+                            <td>Grados</td>
+                        </tr>
+                    </tbody>
+                </table>
             </article>
         </section>
 
@@ -611,6 +669,29 @@
         <section id="changelog-content" class="info-section content-section">
             <h2 class="section-title">HISTORIAL DE VERSIONES <i class="fas fa-history"></i></h2>
             <div id="changelog-container">
+            </div>
+        </section>
+
+        <section id="forum-content" class="info-section content-section">
+            <h2 class="section-title">FORO DE LA COMUNIDAD <i class="fas fa-comments"></i></h2>
+            <p class="text-center color-dim">Comparte tus récords, sugiere ideas o reporta bugs. ¡Tu opinión nos ayuda a mejorar!</p>
+            
+            <div class="form-container" style="max-width: 600px;">
+                <form id="forum-form">
+                    <div class="form-group">
+                        <label for="forum-author">Nombre de Usuario</label>
+                        <input type="text" id="forum-author" placeholder="Tu nombre..." required maxlength="20">
+                    </div>
+                    <div class="form-group">
+                        <label for="forum-text">Comentario</label>
+                        <textarea id="forum-text" rows="4" placeholder="Escribe tu comentario aquí..." required style="width: 100%; padding: 12px; background-color: var(--color-bg-deep); border: 1px solid var(--color-border); border-radius: 4px; color: var(--color-text-light); font-family: 'Inter', sans-serif; resize: vertical;"></textarea>
+                    </div>
+                    <button type="submit" class="form-btn"><i class="fas fa-paper-plane"></i> Publicar Comentario</button>
+                </form>
+            </div>
+
+            <div id="comments-list" class="mt-3">
+                <!-- Los comentarios se cargarán aquí dinámicamente -->
             </div>
         </section>
     </main>
@@ -630,6 +711,17 @@
         };
 
         const CHANGELOG_DATA = [
+            {
+                version: "1.1.1",
+                date: "13/12/2025",
+                features: [
+                    "Nuevo Sistema de Menús: Navegación completa con teclado (Flechas + Enter).",
+                    "Tienda Visual: Nueva interfaz gráfica para comprar y equipar skins.",
+                    "Panel de Opciones: Ajuste de volumen de música y efectos de sonido.",
+                    "Sistema de Logros: 6 logros desbloqueables con notificaciones.",
+                    "Mejoras de Audio: Música de fondo y efectos de sonido para acciones."
+                ]
+            },
             {
                 version: "1.1.0",
                 date: "12/12/2025",
@@ -729,15 +821,31 @@
         }
 
         // --- Función para el contador de visitas ---
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) return parts.pop().split(';').shift();
+        }
+
+        function setCookie(name, value, days) {
+            let expires = "";
+            if (days) {
+                const date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + (value || "") + expires + "; path=/";
+        }
+
         async function updateVisitCounter() {
             const namespace = 'wheelie-life-game'; // Un nombre único para tu proyecto
             const key = 'unique-visitors';       // La clave que quieres contar
             const counterElement = document.getElementById('visit-count-number');
 
-            // 1. Comprobar si este navegador ya ha sido contado
-            if (!localStorage.getItem('hasVisitedWheelieLife')) {
+            // 1. Comprobar si este navegador ya ha sido contado (usando cookies)
+            if (!getCookie('hasVisitedWheelieLife')) {
                 // Si es la primera vez, marca como visitado y registra el "hit"
-                localStorage.setItem('hasVisitedWheelieLife', 'true');
+                setCookie('hasVisitedWheelieLife', 'true', 365);
                 // Incrementa el contador en el servicio externo
                 try {
                     await fetch(`https://api.counterapi.dev/v1/${namespace}/${key}/up`);
@@ -791,6 +899,43 @@
             }
         }
         
+        // --- 8. LÓGICA DEL FORO (LOCALSTORAGE) ---
+        function loadComments() {
+            const comments = JSON.parse(localStorage.getItem('game_comments') || '[]');
+            const container = document.getElementById('comments-list');
+            
+            if (comments.length === 0) {
+                container.innerHTML = '<p class="text-center color-dim">Aún no hay comentarios. ¡Sé el primero!</p>';
+                return;
+            }
+
+            container.innerHTML = comments.map(c => `
+                <div class="comment-item">
+                    <div class="comment-header">
+                        <span class="comment-author">${c.author}</span>
+                        <span class="comment-date">${c.date}</span>
+                    </div>
+                    <p class="comment-body">${c.text}</p>
+                </div>
+            `).join('');
+        }
+
+        function addComment(author, text) {
+            // Sanitización básica para evitar inyección de HTML
+            const safeAuthor = author.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+            const safeText = text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+            const comments = JSON.parse(localStorage.getItem('game_comments') || '[]');
+            const newComment = {
+                author: safeAuthor,
+                text: safeText,
+                date: new Date().toLocaleString()
+            };
+            comments.unshift(newComment); // Añadir al principio
+            localStorage.setItem('game_comments', JSON.stringify(comments));
+            loadComments();
+        }
+
         // --- 7. INICIALIZACIÓN Y EVENTOS ---
         document.addEventListener('DOMContentLoaded', () => {
             // Renderizar contenido dinámico (skins y changelog)
@@ -804,6 +949,25 @@
             if (changelogContainer) {
                 const changelogHtmlArray = CHANGELOG_DATA.map(log => renderChangelogItem(log));
                 changelogContainer.innerHTML = changelogHtmlArray.join('');
+            }
+
+            // Cargar comentarios del foro
+            loadComments();
+
+            // Evento para el formulario del foro
+            const forumForm = document.getElementById('forum-form');
+            if (forumForm) {
+                forumForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const author = document.getElementById('forum-author').value;
+                    const text = document.getElementById('forum-text').value;
+                    
+                    if (author && text) {
+                        addComment(author, text);
+                        forumForm.reset();
+                        alert('¡Comentario publicado!');
+                    }
+                });
             }
             
             // Asignar eventos de click a la navegación
@@ -842,234 +1006,6 @@
             showSection('download-content');
             updateVisitCounter();
             updateDownloadCounter(); // Cargar el contador de descargas inicial
-        });
-    </script>
-</body>
-</html>
-
-    <script>
-        // --- 1. DATOS DEL JUEGO (Extraídos de player.py) ---
-        const CURRENT_GAME_VERSION = "1.1.1"; 
-        
-        const GAME_DATA = {
-            "skins": {
-                "negro": {"price": 0, "name": "Negro Básico", "acceleration_bonus": 1.0, "top_speed_bonus": 0.0, "drag_reduction": 1.0},
-                "rojo": {"price": 500, "name": "Rojo Furia", "acceleration_bonus": 1.1, "top_speed_bonus": 2.0, "drag_reduction": 1.0},
-                "verde": {"price": 750, "name": "Verde Neón", "acceleration_bonus": 1.0, "top_speed_bonus": 0.0, "drag_reduction": 0.9},
-                "azul": {"price": 1000, "name": "Azul Eléctrico", "acceleration_bonus": 1.15, "top_speed_bonus": 4.0, "drag_reduction": 0.95}
-            }
-        };
-
-        const CHANGELOG_DATA = [
-            {
-                version: "1.1.0",
-                date: "12/12/2025",
-                features: [
-                    "Estructura de guardado: Implementación de la clave 'money' en el archivo `data.json` para evitar errores al cargar.",
-                    "Física: Ajuste del coeficiente de resistencia del aire (DRAG_COEFFICIENT=0.006) para mayor realismo a alta velocidad.",
-                    "Gráficos: Mejora en el renderizado del Parallax del fondo."
-                ]
-            },
-            {
-                version: "1.0.0",
-                date: "01/12/2025",
-                features: [
-                    "Lanzamiento inicial con el sistema de física de inclinación.",
-                    "Sistema de economía: Gana 1$ por cada 10 metros recorridos."
-                ]
-            }
-        ];
-
-        // --- 2. LÓGICA DE NAVEGACIÓN (SPA) ---
-        // --- 2. ESTADO DE LA APLICACIÓN ---
-        let currentUser = null; // null si no hay sesión iniciada, o un objeto {username: "..."}
-
-        // --- 3. LÓGICA DE NAVEGACIÓN (SPA) ---
-        function showSection(sectionId) {
-            // 1. Ocultar todas las secciones de contenido
-            document.querySelectorAll('.content-section').forEach(section => {
-                section.classList.remove('active');
-            });
-
-            // 2. Mostrar la sección deseada
-            // 2. Mostrar la sección deseada y actualizar enlaces
-            const activeSection = document.getElementById(sectionId);
-            if (activeSection) {
-                activeSection.classList.add('active');
-            }
-
-            // 3. Actualizar el estado activo en la navegación
-            document.querySelectorAll('.nav-links a').forEach(link => {
-            // 3. Actualizar el estado activo en los enlaces de navegación
-            const allLinks = currentUser ? 
-                document.querySelectorAll('#nav-links-main a') :
-                document.querySelectorAll('#nav-links-auth a');
-
-            allLinks.forEach(link => {
-                link.classList.remove('active');
-                if (link.getAttribute('data-target') === sectionId) {
-                    link.classList.add('active');
-                }
-            });
-        }
-
-        // --- 3. FUNCIONES DE RENDERIZADO ---
-        // --- 4. GESTIÓN DE ESTADO DE SESIÓN (UI) ---
-        function updateUIForAuthState() {
-            const navMain = document.getElementById('nav-links-main');
-            const navAuth = document.getElementById('nav-links-auth');
-            const navUser = document.getElementById('nav-links-user');
-            const userGreeting = document.getElementById('user-greeting');
-
-            if (currentUser) { // Sesión iniciada
-                navMain.style.display = 'flex';
-                navAuth.style.display = 'none';
-                navUser.style.display = 'flex';
-                userGreeting.textContent = `Hola, ${currentUser.username}`;
-                showSection('download-content'); // Mostrar la sección de descarga por defecto
-            } else { // Sesión cerrada
-                navMain.style.display = 'none';
-                navAuth.style.display = 'flex';
-                navUser.style.display = 'none';
-                showSection('register-content'); // Mostrar la sección de registro por defecto
-            }
-        }
-
-        // --- 5. FUNCIONES DE RENDERIZADO DE CONTENIDO ---
-
-        function renderSkinItem(key, skinData) {
-            const statusText = key === 'negro' ? 'Skin Base' : `Precio: $${skinData.price}`;
-            
-            // Función para formatear bonificaciones
-            const formatBonus = (val, type) => {
-                let color = '#E0E0E0';
-                let text;
-
-                if (type === 'speed_bonus') {
-                    // Bonificación absoluta de velocidad máxima
-                    color = '#64B5F6'; // Azul
-                    color = 'var(--color-info)';
-                    text = `+${val.toFixed(1)} km/h`;
-                } else if (val > 1.0) {
-                    // Bonificación porcentual positiva (Aceleración)
-                    color = '#66BB6A'; // Verde
-                    color = 'var(--color-success)';
-                    text = `+${((val - 1) * 100).toFixed(0)}%`;
-                } else if (val < 1.0) {
-                    // Bonificación de reducción (Arrastre)
-                    color = '#64B5F6'; // Azul
-                    color = 'var(--color-info)';
-                    text = `x${val.toFixed(2)}`;
-                } else {
-                    // Neutral
-                    color = '#A0A0A0';
-                    text = 'x1.0';
-                }
-                
-                return `<span style="color:${color}; font-weight: 600;">${text}</span>`;
-            };
-
-            return `
-                <div class="grid-item skin-card">
-                    <h3 style="color:var(--color-accent);"><i class="fas fa-motorcycle"></i> ${skinData.name}</h3>
-                    <p style="color: var(--color-text-dim); margin-top:-10px; font-size:0.9em;">(${statusText})</p>
-                    <ul style="list-style:none; padding:0; font-size:0.9em;">
-                        <li><i class="fas fa-bolt" style="color:#66BB6A;"></i> Acel. Multiplicador: ${formatBonus(skinData.acceleration_bonus, 'accel_bonus')}</li>
-                        <li><i class="fas fa-angle-double-up" style="color:#64B5F6;"></i> Vel. Máx. Adicional: ${formatBonus(skinData.top_speed_bonus, 'speed_bonus')}</li>
-                        <li><i class="fas fa-wind" style="color:#64B5F6;"></i> Arrastre (Coef. Multi.): ${formatBonus(skinData.drag_reduction, 'drag_reduction')}</li>
-                    <h3 class="color-accent"><i class="fas fa-motorcycle"></i> ${skinData.name}</h3>
-                    <p class="color-dim font-small" style="margin-top:-10px;">(${statusText})</p>
-                    <ul style="list-style:none; padding:0;" class="font-small">
-                        <li><i class="fas fa-bolt color-success"></i> Acel. Multiplicador: ${formatBonus(skinData.acceleration_bonus, 'accel_bonus')}</li>
-                        <li><i class="fas fa-angle-double-up color-info"></i> Vel. Máx. Adicional: ${formatBonus(skinData.top_speed_bonus, 'speed_bonus')}</li>
-                        <li><i class="fas fa-wind color-info"></i> Arrastre (Coef. Multi.): ${formatBonus(skinData.drag_reduction, 'drag_reduction')}</li>
-                    </ul>
-                </div>
-            `;
-        }
-
-        function renderChangelogItem(log) {
-            const featuresList = log.features.map(f => `<li><i class="fas fa-caret-right" style="color:#66BB6A;"></i> ${f}</li>`).join('');
-            const featuresList = log.features.map(f => `<li><i class="fas fa-caret-right color-success"></i> ${f}</li>`).join('');
-            
-            return `
-                <div class="changelog-item">
-                    <h4><i class="fas fa-calendar-alt" style="color:var(--color-accent);"></i> V${log.version} - ${log.date}</h4>
-                    <ul style="list-style:none; padding-left: 10px; color:var(--color-text-dim);">
-                    <h4><i class="fas fa-calendar-alt color-accent"></i> V${log.version} - ${log.date}</h4>
-                    <ul style="list-style:none; padding-left: 10px;" class="color-dim">
-                        ${featuresList}
-                    </ul>
-                </div>
-            `;
-        }
-        
-        // --- 4. INICIALIZACIÓN Y EVENTOS ---
-        // --- 6. INICIALIZACIÓN Y EVENTOS ---
-        document.addEventListener('DOMContentLoaded', () => {
-            // Renderizar contenido dinámico (skins y changelog)
-            const skinContainer = document.getElementById('dynamic-list');
-            if (skinContainer) {
-                const skinsHtmlArray = Object.keys(GAME_DATA.skins).map(key => renderSkinItem(key, GAME_DATA.skins[key]));
-                skinContainer.innerHTML = skinsHtmlArray.join('');
-            }
-            
-            const changelogContainer = document.getElementById('changelog-container');
-            if (changelogContainer) {
-                const changelogHtmlArray = CHANGELOG_DATA.map(log => renderChangelogItem(log));
-                changelogContainer.innerHTML = changelogHtmlArray.join('');
-            }
-            
-            // Asignar eventos de click a la navegación
-            document.querySelectorAll('.nav-links a').forEach(link => {
-            document.querySelectorAll('nav a[data-target]').forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    const targetId = link.getAttribute('data-target');
-                    if (targetId) {
-                        showSection(targetId);
-                    }
-                });
-            });
-            
-            // Asegurar que la pestaña de descarga se muestre al cargar
-            showSection('download-content');
-            // Evento para el formulario de registro (simulado)
-            document.getElementById('register-form').addEventListener('submit', (e) => {
-                e.preventDefault();
-                const username = document.getElementById('register-username').value;
-                alert(`¡Registro exitoso para ${username}! Ahora, por favor, inicia sesión.`);
-                // Aquí, en una app real, enviarías los datos a tu servidor.
-                // fetch('/api/register', { method: 'POST', body: ... })
-                showSection('login-content');
-            });
-
-            // Evento para el formulario de login (simulado)
-            document.getElementById('login-form').addEventListener('submit', (e) => {
-                e.preventDefault();
-                const username = document.getElementById('login-username').value;
-                // Simulación de inicio de sesión exitoso
-                currentUser = { username: username };
-                alert(`¡Bienvenido, ${username}!`);
-                // Aquí, en una app real, enviarías los datos y recibirías una confirmación.
-                // fetch('/api/login', { method: 'POST', body: ... })
-                updateUIForAuthState();
-            });
-
-            // Evento para cerrar sesión
-            document.getElementById('logout-btn').addEventListener('click', (e) => {
-                e.preventDefault();
-                const username = currentUser.username;
-                currentUser = null;
-                alert(`¡Hasta pronto, ${username}!`);
-                // Aquí, en una app real, harías una llamada al servidor para invalidar la sesión.
-                // fetch('/api/logout', { method: 'POST' })
-                updateUIForAuthState();
-            });
-
-
-            // Estado inicial de la UI al cargar la página
-            updateUIForAuthState();
         });
     </script>
 </body>
