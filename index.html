@@ -466,7 +466,7 @@
 
     <header>
         <h1 class="game-title">WHEELIE LIFE</h1>
-        <p class="tagline color-accent fw-600"></p>
+        <p class="tagline color-accent fw-600">¡Domina el equilibrio y conquista el asfalto!</p>
         <p class="version-display"><i class="fas fa-code-branch"></i> Versión Estable: <span id="game-version">1.1.1</span></p>
     </header>
 
@@ -478,7 +478,7 @@
             
             <div class="os-download-container">
                 <div class="os-download-item">
-                    <a href="https://drive.google.com/uc?export=download&id=1HHuHpnFQYaJsHSHflcPOE11r12ByEO6n" id="windows-download-btn" class="os-btn enabled" download="WheelieLife_v1.1.0.zip">
+                    <a href="https://drive.google.com/uc?export=download&id=1HHuHpnFQYaJsHSHflcPOE11r12ByEO6n" id="windows-download-btn" class="os-btn enabled" download="WheelieLife_v1.1.1.zip">
                         <i class="fab fa-windows" style="color: #00A4EF;"></i>
                         <span>Windows (.exe)</span>
                     </a>
@@ -510,7 +510,7 @@
                 <div class="grid-item">
                     <h3><i class="fas fa-check-circle color-accent"></i> Instrucciones de Instalación</h3>
                     <ol style="list-style:decimal; padding-left:20px;" class="color-dim">
-                        <li>Descarga el archivo <strong>WheelieLife_v1.1.0.zip</strong>.</li>
+                        <li>Descarga el archivo <strong>WheelieLife_v1.1.1.zip</strong>.</li>
                         <li>Descomprime el archivo en una carpeta de tu elección.</li>
                         <li>Entra en la carpeta descomprimida.</li>
                         <li>Haz doble clic en <strong>WheelieLife.exe</strong> (o Menu.exe) para iniciar.</li>
@@ -533,12 +533,12 @@
                 </div>
                 <div class="grid-item">
                     <h3><i class="fas fa-money-bill-wave"></i> Progresión y Economía</h3>
-                    <p>La moneda se gana a razón de <strong>1$ por cada 10 metros</strong> recorridos. Este dinero es persistente (guardado en `data.json`) y se usa para desbloquear skins y mejoras permanentes.</p>
+                    <p>La moneda se gana a razón de <strong>1$ por cada 10 metros</strong> recorridos. Este dinero es persistente (guardado en `player_data.json`) y se usa para desbloquear skins y mejoras permanentes.</p>
                 </div>
             </div>
 
             <article class="mt-3" style="border-top: 1px solid var(--color-border); padding-top: 20px;">
-                <h3 class="color-accent"><i class="fas fa-award"></i> Lograr la Distancia Máxima</h3>
+                <h3 class="color-accent"><i class="fas fa-globe-americas"></i> Mundos y Distancia Máxima</h3>
                 <p>El principal desafío es optimizar la velocidad y el arrastre para alcanzar la máxima distancia. Las skins con bonificaciones altas de `acceleration_bonus` y baja `drag_reduction` son clave para batir récords.</p>
                 <p class="font-small color-dim">El récord de distancia (`max_distance`) se guarda en `player_data.json` y se actualiza al final de cada bucle de juego.</p>
             </article>
@@ -549,7 +549,7 @@
             
             <div class="grid-2">
                 <div>
-                    <h3><i class="fas fa-keyboard"></i> Controles Esenciales</h3>
+                    <h3><i class="fas fa-keyboard"></i> Controles del Juego</h3>
                     <p>El control del equilibrio es vital. Se recomienda práctica para dominar la inercia del piloto:</p>
                     <table class="stats-table">
                         <thead>
@@ -565,6 +565,11 @@
                                 <td class="color-accent fw-bold">W</td>
                                 <td>Bloquear Ángulo</td>
                                 <td>Mantiene el ángulo actual del wheelie para estabilizarlo.</td>
+                            </tr>
+                             <tr>
+                                <td class="color-accent fw-bold">Opciones</td>
+                                <td>Menú de Opciones</td>
+                                <td>Ajusta el volumen de la música y los efectos de sonido.</td>
                             </tr>
                             <tr>
                                 <td class="color-accent fw-bold">L</td>
@@ -703,11 +708,17 @@
         
         const GAME_DATA = {
             "skins": {
-                "negro": {"price": 0, "name": "Negro Básico", "acceleration_bonus": 1.0, "top_speed_bonus": 0.0, "drag_reduction": 1.0},
-                "rojo": {"price": 500, "name": "Rojo Furia", "acceleration_bonus": 1.1, "top_speed_bonus": 2.0, "drag_reduction": 1.0},
-                "verde": {"price": 750, "name": "Verde Neón", "acceleration_bonus": 1.0, "top_speed_bonus": 0.0, "drag_reduction": 0.9},
-                "azul": {"price": 1000, "name": "Azul Eléctrico", "acceleration_bonus": 1.15, "top_speed_bonus": 4.0, "drag_reduction": 0.95}
-            }
+                 "negro": {"price": 0, "name": "Negro Básico", "acceleration_bonus": 1.0, "top_speed_bonus": 0.0, "drag_reduction": 1.0},
+                 "rojo": {"price": 500, "name": "Rojo Furia", "acceleration_bonus": 1.1, "top_speed_bonus": 2.0, "drag_reduction": 1.0},
+                 "verde": {"price": 750, "name": "Verde Neón", "acceleration_bonus": 1.0, "top_speed_bonus": 0.0, "drag_reduction": 0.9},
+                 "azul": {"price": 1000, "name": "Azul Eléctrico", "acceleration_bonus": 1.15, "top_speed_bonus": 4.0, "drag_reduction": 0.95},
+                 "dorado": {"price": 2500, "name": "Dorado Real", "acceleration_bonus": 1.2, "top_speed_bonus": 5.0, "drag_reduction": 0.9},
+                 "carbono": {"price": 1800, "name": "Fibra Carbono", "acceleration_bonus": 1.0, "top_speed_bonus": 8.0, "drag_reduction": 1.0},
+                 "fantasma": {"price": 3000, "name": "Blanco Fantasma", "acceleration_bonus": 1.3, "top_speed_bonus": 3.0, "drag_reduction": 0.85},
+                 "rosa": {"price": 400, "name": "Rosa Chicle", "acceleration_bonus": 1.05, "top_speed_bonus": 1.0, "drag_reduction": 1.0},
+                 "naranja": {"price": 600, "name": "Naranja Atómico", "acceleration_bonus": 1.12, "top_speed_bonus": 1.5, "drag_reduction": 0.98}
+            },
+            "worlds": ["Pradera", "Desierto", "Nieve"]
         };
 
         const CHANGELOG_DATA = [
@@ -718,13 +729,14 @@
                     "Nuevo Sistema de Menús: Navegación completa con teclado (Flechas + Enter).",
                     "Tienda Visual: Nueva interfaz gráfica para comprar y equipar skins.",
                     "Panel de Opciones: Ajuste de volumen de música y efectos de sonido.",
-                    "Sistema de Logros: 6 logros desbloqueables con notificaciones.",
-                    "Mejoras de Audio: Música de fondo y efectos de sonido para acciones."
+                    "Selección de Mundos: Elige entre Pradera, Desierto y Nieve antes de empezar.",
+                    "Paginación en la Tienda: Navega por el catálogo de skins con páginas.",
+                    "Nuevas Skins: Se han añadido 5 skins nuevas al catálogo."
                 ]
             },
             {
                 version: "1.1.0",
-                date: "12/12/2025",
+                date: "10/12/2025",
                 features: [
                     "Estructura de guardado: Implementación de la clave 'money' en el archivo `data.json` para evitar errores al cargar.",
                     "Física: Ajuste del coeficiente de resistencia del aire (DRAG_COEFFICIENT=0.006) para mayor realismo a alta velocidad.",
@@ -733,7 +745,7 @@
             },
             {
                 version: "1.0.0",
-                date: "01/12/2025",
+                date: "08/12/2025",
                 features: [
                     "Lanzamiento inicial con el sistema de física de inclinación.",
                     "Sistema de economía: Gana 1$ por cada 10 metros recorridos."
@@ -775,7 +787,7 @@
 
                 if (type === 'speed_bonus') {
                     // Bonificación absoluta de velocidad máxima
-                    color = 'var(--color-info)';
+                    color = 'var(--color-success)';
                     text = `+${val.toFixed(1)} km/h`;
                 } else if (val > 1.0) {
                     // Bonificación porcentual positiva (Aceleración)
@@ -990,17 +1002,6 @@
 
             // --- Evento para el botón de descarga de Windows ---
             document.getElementById('windows-download-btn').addEventListener('click', handleDownloadClick); // Corregido para usar solo un manejador
-
-            // --- Evento para el botón de copiar ---
-            document.getElementById('copy-btn').addEventListener('click', () => {
-                const command = document.getElementById('pip-command').innerText;
-                navigator.clipboard.writeText(command).then(() => {
-                    alert('Comando copiado al portapapeles: ' + command);
-                }).catch(err => {
-                    console.error('Error al copiar: ', err);
-                    alert('No se pudo copiar el comando.');
-                });
-            });
 
             // Estado inicial de la UI al cargar la página
             showSection('download-content');
