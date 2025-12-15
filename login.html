@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - Wheelie Life</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Reusing styles from index.html */
+        :root {
+            --color-bg-deep: #121212;
+            --color-bg-section: #1F1F1F;
+            --color-bg-nav: #292929;
+            --color-accent: #FFB300;
+            --color-text-light: #E0E0E0;
+            --color-text-dim: #A0A0A0;
+            --color-border: #444444;
+            --color-success: #66BB6A;
+            --color-error: #EF5350;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-bg-deep);
+            color: var(--color-text-light);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .auth-container {
+            background-color: var(--color-bg-section);
+            padding: 40px;
+            border-radius: 8px;
+            border: 1px solid var(--color-border);
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .auth-title {
+            font-family: 'Press Start 2P', cursive;
+            color: var(--color-accent);
+            font-size: 1.5em;
+            margin-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--color-text-dim);
+            font-weight: 600;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            background-color: var(--color-bg-deep);
+            border: 1px solid var(--color-border);
+            border-radius: 4px;
+            color: var(--color-text-light);
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--color-accent);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--color-accent);
+            color: var(--color-bg-deep);
+            border: none;
+            border-radius: 4px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .btn:hover {
+            background-color: #FFD54F;
+        }
+
+        .auth-footer {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 0.9em;
+            color: var(--color-text-dim);
+        }
+
+        .auth-footer a {
+            color: var(--color-accent);
+            text-decoration: none;
+        }
+
+        .error-msg {
+            color: var(--color-error);
+            text-align: center;
+            margin-bottom: 15px;
+            display: none;
+        }
+        
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: var(--color-text-dim);
+            text-decoration: none;
+            font-size: 0.8em;
+        }
+        .back-link:hover { color: var(--color-text-light); }
+    </style>
+</head>
+<body>
+
+    <div class="auth-container">
+        <div class="auth-header">
+            <h1 class="auth-title">LOGIN</h1>
+            <p>Bienvenido de nuevo, piloto.</p>
+        </div>
+
+        <div id="error-display" class="error-msg"></div>
+
+        <form id="login-form">
+            <div class="form-group">
+                <label for="username">Usuario</label>
+                <input type="text" id="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Contraseña</label>
+                <input type="password" id="password" required>
+            </div>
+            
+            <div class="form-group" style="display: flex; align-items: center; gap: 10px;">
+                <input type="checkbox" id="remember" style="width: auto;">
+                <label for="remember" style="margin: 0; font-weight: 400; font-size: 0.9em;">Recordar sesión</label>
+            </div>
+
+            <button type="submit" class="btn">ENTRAR</button>
+        </form>
+
+        <div class="auth-footer">
+            <a href="#" onclick="alert('¡Usa uno de tus códigos de recuperación generados al registrarte!'); return false;" style="font-size: 0.8em; display: block; margin-bottom: 10px;">¿Olvidaste tu contraseña?</a>
+            ¿No tienes cuenta? <a href="register.html">Regístrate aquí</a>
+        </div>
+        
+        <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Volver al Inicio</a>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script>
+        document.getElementById('login-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const user = document.getElementById('username').value;
+            const pass = document.getElementById('password').value;
+            const remember = document.getElementById('remember').checked;
+            const errorDisplay = document.getElementById('error-display');
+
+            try {
+                await login(user, pass, remember);
+                window.location.href = 'index.html';
+            } catch (err) {
+                errorDisplay.textContent = err.message;
+                errorDisplay.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

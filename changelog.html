@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Historial - Wheelie Life</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Reusing styles from index.html */
+        :root {
+            --color-bg-deep: #121212;
+            --color-bg-section: #1F1F1F;
+            --color-bg-nav: #292929;
+            --color-accent: #FFB300;
+            --color-text-light: #E0E0E0;
+            --color-text-dim: #A0A0A0;
+            --color-border: #444444;
+            --color-success: #66BB6A;
+            --color-error: #EF5350;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-bg-deep);
+            color: var(--color-text-light);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        a { color: var(--color-accent); text-decoration: none; transition: color 0.3s; }
+        a:hover { color: #FFD54F; }
+
+        nav {
+            background-color: var(--color-bg-nav);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+            border-bottom: 2px solid var(--color-accent);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .nav-logo {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1em;
+            color: var(--color-accent);
+        }
+
+        .nav-links a {
+            margin-left: 20px;
+            font-weight: 600;
+            color: var(--color-text-light);
+            text-transform: uppercase;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        .nav-links a:not(.active):hover {
+            background-color: var(--color-bg-section);
+            color: var(--color-accent);
+        }
+
+        .nav-links a.active {
+            color: var(--color-bg-deep);
+            background-color: var(--color-accent);
+            box-shadow: 0 0 10px rgba(255, 179, 0, 0.7);
+        }
+
+        .nav-button {
+            margin-left: 20px;
+            font-weight: 600;
+            color: var(--color-text-light);
+            text-transform: uppercase;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background-color 0.3s, color 0.3s;
+            background-color: transparent;
+            border: 2px solid var(--color-border);
+            cursor: pointer;
+        }
+        .nav-button:hover {
+            background-color: var(--color-bg-section);
+            border-color: var(--color-accent);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px 80px;
+        }
+
+        .section-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.2em;
+            color: var(--color-accent);
+            text-align: center;
+            border-bottom: 2px solid var(--color-border);
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+
+        .changelog-item {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--color-border);
+        }
+        .changelog-item:last-child { border-bottom: none; }
+        .changelog-item h4 { margin-top: 0; font-size: 1.1em; }
+
+        .color-dim { color: var(--color-text-dim); }
+        .color-accent { color: var(--color-accent); }
+        .color-success { color: var(--color-success); }
+
+        .user-profile-container { display: flex; align-items: center; gap: 15px; }
+        #user-email-display { color: var(--color-text-light); font-size: 14px; }
+        .logout-button { background-color: var(--color-error) !important; border-color: var(--color-error) !important; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">WHEELIE LIFE</a>
+            <div class="nav-links">
+                <a href="index.html"><i class="fas fa-file-download"></i> Descarga</a>
+                <a href="overview.html"><i class="fas fa-info-circle"></i> Visión General</a>
+                <a href="documentation.html"><i class="fas fa-book-open"></i> Documentación</a>
+                <a href="shop.html"><i class="fas fa-store"></i> Catálogo</a>
+                <a href="changelog.html" class="active"><i class="fas fa-history"></i> Historial</a>
+                <a href="forum.html"><i class="fas fa-comments"></i> Foro</a>
+            </div>
+            <div class="auth-buttons">
+                <a href="login.html" id="login-nav-btn" class="nav-button">
+                    <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+                </a>
+                <div id="user-profile-container" class="user-profile-container" style="display: none;">
+                    <span id="user-email-display"></span>
+                    <button id="logout-btn" class="nav-button logout-button">
+                        <i class="fas fa-sign-out-alt"></i> Salir
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <h2 class="section-title">HISTORIAL DE VERSIONES <i class="fas fa-history"></i></h2>
+        <div id="changelog-container">
+            <!-- Changelog cargado dinámicamente -->
+        </div>
+    </main>
+
+    <script src="js/auth.js"></script>
+    <script>
+        const user = getCurrentUser();
+        if (user) {
+            document.getElementById('login-nav-btn').style.display = 'none';
+            document.getElementById('user-profile-container').style.display = 'flex';
+            document.getElementById('user-email-display').textContent = user.username;
+        }
+        document.getElementById('logout-btn').addEventListener('click', logout);
+
+        const CHANGELOG_DATA = [
+            {
+                version: "1.1.1",
+                date: "13/12/2025",
+                features: [
+                    "Nuevo Sistema de Menús: Navegación completa con teclado (Flechas + Enter).",
+                    "Tienda Visual: Nueva interfaz gráfica para comprar y equipar skins.",
+                    "Panel de Opciones: Ajuste de volumen de música y efectos de sonido.",
+                    "Selección de Mundos: Elige entre Pradera, Desierto y Nieve antes de empezar.",
+                    "Paginación en la Tienda: Navega por el catálogo de skins con páginas.",
+                    "Nuevas Skins: Se han añadido 5 skins nuevas al catálogo."
+                ]
+            },
+            {
+                version: "1.1.0",
+                date: "10/12/2025",
+                features: [
+                    "Estructura de guardado: Implementación de la clave 'money' en el archivo `data.json` para evitar errores al cargar.",
+                    "Física: Ajuste del coeficiente de resistencia del aire (DRAG_COEFFICIENT=0.006) para mayor realismo a alta velocidad.",
+                    "Gráficos: Mejora en el renderizado del Parallax del fondo."
+                ]
+            },
+            {
+                version: "1.0.0",
+                date: "08/12/2025",
+                features: [
+                    "Lanzamiento inicial con el sistema de física de inclinación.",
+                    "Sistema de economía: Gana 1$ por cada 10 metros recorridos."
+                ]
+            }
+        ];
+
+        function renderChangelogItem(log) {
+            const featuresList = log.features.map(f => `<li><i class="fas fa-caret-right color-success"></i> ${f}</li>`).join('');
+            
+            return `
+                <div class="changelog-item">
+                    <h4><i class="fas fa-calendar-alt color-accent"></i> V${log.version} - ${log.date}</h4>
+                    <ul style="list-style:none; padding-left: 10px;" class="color-dim">
+                        ${featuresList}
+                    </ul>
+                </div>
+            `;
+        }
+
+        const changelogContainer = document.getElementById('changelog-container');
+        if (changelogContainer) {
+            changelogContainer.innerHTML = CHANGELOG_DATA.map(renderChangelogItem).join('');
+        }
+    </script>
+</body>
+</html>

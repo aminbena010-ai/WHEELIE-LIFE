@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentación - Wheelie Life</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Reusing styles from index.html */
+        :root {
+            --color-bg-deep: #121212;
+            --color-bg-section: #1F1F1F;
+            --color-bg-nav: #292929;
+            --color-accent: #FFB300;
+            --color-text-light: #E0E0E0;
+            --color-text-dim: #A0A0A0;
+            --color-border: #444444;
+            --color-success: #66BB6A;
+            --color-error: #EF5350;
+            --color-info: #64B5F6;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-bg-deep);
+            color: var(--color-text-light);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        a { color: var(--color-accent); text-decoration: none; transition: color 0.3s; }
+        a:hover { color: #FFD54F; }
+
+        nav {
+            background-color: var(--color-bg-nav);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+            border-bottom: 2px solid var(--color-accent);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .nav-logo {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1em;
+            color: var(--color-accent);
+        }
+
+        .nav-links a {
+            margin-left: 20px;
+            font-weight: 600;
+            color: var(--color-text-light);
+            text-transform: uppercase;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        .nav-links a:not(.active):hover {
+            background-color: var(--color-bg-section);
+            color: var(--color-accent);
+        }
+
+        .nav-links a.active {
+            color: var(--color-bg-deep);
+            background-color: var(--color-accent);
+            box-shadow: 0 0 10px rgba(255, 179, 0, 0.7);
+        }
+
+        .nav-button {
+            margin-left: 20px;
+            font-weight: 600;
+            color: var(--color-text-light);
+            text-transform: uppercase;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background-color 0.3s, color 0.3s;
+            background-color: transparent;
+            border: 2px solid var(--color-border);
+            cursor: pointer;
+        }
+        .nav-button:hover {
+            background-color: var(--color-bg-section);
+            border-color: var(--color-accent);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px 80px;
+        }
+
+        .section-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.2em;
+            color: var(--color-accent);
+            text-align: center;
+            border-bottom: 2px solid var(--color-border);
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .stats-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            margin-top: 15px;
+        }
+
+        .stats-table th, .stats-table td {
+            border-bottom: 1px solid var(--color-border);
+            padding: 8px 0;
+            font-size: 0.9em;
+        }
+        
+        .stats-table th {
+            color: var(--color-accent);
+            font-weight: 600;
+        }
+
+        .mt-3 { margin-top: 30px; }
+        .fw-bold { font-weight: bold; }
+        .color-accent { color: var(--color-accent); }
+        .color-success { color: var(--color-success); }
+        .color-error { color: var(--color-error); }
+        .color-info { color: var(--color-info); }
+
+        .user-profile-container { display: flex; align-items: center; gap: 15px; }
+        #user-email-display { color: var(--color-text-light); font-size: 14px; }
+        .logout-button { background-color: var(--color-error) !important; border-color: var(--color-error) !important; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">WHEELIE LIFE</a>
+            <div class="nav-links">
+                <a href="index.html"><i class="fas fa-file-download"></i> Descarga</a>
+                <a href="overview.html"><i class="fas fa-info-circle"></i> Visión General</a>
+                <a href="documentation.html" class="active"><i class="fas fa-book-open"></i> Documentación</a>
+                <a href="shop.html"><i class="fas fa-store"></i> Catálogo</a>
+                <a href="changelog.html"><i class="fas fa-history"></i> Historial</a>
+                <a href="forum.html"><i class="fas fa-comments"></i> Foro</a>
+            </div>
+            <div class="auth-buttons">
+                <a href="login.html" id="login-nav-btn" class="nav-button">
+                    <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+                </a>
+                <div id="user-profile-container" class="user-profile-container" style="display: none;">
+                    <span id="user-email-display"></span>
+                    <button id="logout-btn" class="nav-button logout-button">
+                        <i class="fas fa-sign-out-alt"></i> Salir
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <h2 class="section-title">DOCUMENTACIÓN TÉCNICA Y PARÁMETROS DE FÍSICA <i class="fas fa-book-open"></i></h2>
+        
+        <div class="grid-2">
+            <div>
+                <h3><i class="fas fa-keyboard"></i> Controles del Juego</h3>
+                <p>El control del equilibrio es vital. Se recomienda práctica para dominar la inercia del piloto:</p>
+                <table class="stats-table">
+                    <thead>
+                        <tr><th>Tecla</th><th>Función</th><th>Detalles de Acción</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="color-accent fw-bold">D</td>
+                            <td>Acelerar / Levantar</td>
+                            <td>Acelera la moto y levanta la rueda delantera.</td>
+                        </tr>
+                        <tr>
+                            <td class="color-accent fw-bold">W</td>
+                            <td>Bloquear Ángulo</td>
+                            <td>Mantiene el ángulo actual del wheelie para estabilizarlo.</td>
+                        </tr>
+                        <tr>
+                            <td class="color-accent fw-bold">Opciones</td>
+                            <td>Menú de Opciones</td>
+                            <td>Ajusta el volumen de la música y los efectos de sonido.</td>
+                        </tr>
+                        <tr>
+                            <td class="color-accent fw-bold">L</td>
+                            <td>Logros</td>
+                            <td>Abre el panel de logros durante el juego.</td>
+                        </tr>
+                        <tr>
+                            <td class="color-accent fw-bold">ESC</td>
+                            <td>Menú / Salir</td>
+                            <td>Vuelve al menú principal o sale de las opciones.</td>
+                        </tr>
+                        <tr>
+                            <td class="color-accent fw-bold">Flechas</td>
+                            <td>Navegación</td>
+                            <td>Moverse por los menús (Arriba/Abajo/Izq/Der).</td>
+                        </tr>
+                        <tr>
+                            <td class="color-accent fw-bold">Enter</td>
+                            <td>Seleccionar</td>
+                            <td>Confirmar selección en menús.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div>
+                <h3><i class="fas fa-trophy"></i> Logros Desbloqueables</h3>
+                <p>Supera estos desafíos para demostrar tu habilidad:</p>
+                <table class="stats-table">
+                    <thead>
+                        <tr><th>Logro</th><th>Descripción</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="color-success">Novato del Asfalto</td>
+                            <td>Recorre 1.000 metros.</td>
+                        </tr>
+                        <tr>
+                            <td class="color-success">Correcaminos</td>
+                            <td>Recorre 5.000 metros.</td>
+                        </tr>
+                        <tr>
+                            <td class="color-info">Velocista</td>
+                            <td>Alcanza los 100 km/h.</td>
+                        </tr>
+                        <tr>
+                            <td class="color-info">Bala Humana</td>
+                            <td>Supera los 140 km/h.</td>
+                        </tr>
+                        <tr>
+                            <td class="color-error">Bautismo de Fuego</td>
+                            <td>Sufre tu primera caída.</td>
+                        </tr>
+                        <tr>
+                            <td class="color-accent">Ahorrador</td>
+                            <td>Acumula 1.000$ en total.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <article class="mt-3">
+            <h3 class="color-accent"><i class="fas fa-cogs"></i> Constantes Físicas Clave</h3>
+            <p>El juego simula la física con los siguientes parámetros base (sujetos a bonificaciones):</p>
+            <table class="stats-table">
+                <thead>
+                    <tr><th>Parámetro</th><th>Valor Base</th><th>Unidad</th></tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>PIXELS_PER_METER</strong></td>
+                        <td class="color-success">25.0</td>
+                        <td>Píxeles/Metro</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ACELERACIÓN BASE</strong></td>
+                        <td class="color-success">0.5</td>
+                        <td>m/s (por frame)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>VELOCIDAD MÁXIMA</strong></td>
+                        <td class="color-info">40.0</td>
+                        <td>m/s (~144 km/h)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>ÁNGULO MÁXIMO</strong></td>
+                        <td class="color-error">80.0</td>
+                        <td>Grados</td>
+                    </tr>
+                </tbody>
+            </table>
+        </article>
+    </main>
+
+    <script src="js/auth.js"></script>
+    <script>
+        const user = getCurrentUser();
+        if (user) {
+            document.getElementById('login-nav-btn').style.display = 'none';
+            document.getElementById('user-profile-container').style.display = 'flex';
+            document.getElementById('user-email-display').textContent = user.username;
+        }
+        document.getElementById('logout-btn').addEventListener('click', logout);
+    </script>
+</body>
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visión General - Wheelie Life</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Reusing styles from index.html */
+        :root {
+            --color-bg-deep: #121212;
+            --color-bg-section: #1F1F1F;
+            --color-bg-nav: #292929;
+            --color-accent: #FFB300;
+            --color-text-light: #E0E0E0;
+            --color-text-dim: #A0A0A0;
+            --color-border: #444444;
+            --color-success: #66BB6A;
+            --color-error: #EF5350;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-bg-deep);
+            color: var(--color-text-light);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        a { color: var(--color-accent); text-decoration: none; transition: color 0.3s; }
+        a:hover { color: #FFD54F; }
+
+        nav {
+            background-color: var(--color-bg-nav);
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+            border-bottom: 2px solid var(--color-accent);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        .nav-logo {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1em;
+            color: var(--color-accent);
+        }
+
+        .nav-links a {
+            margin-left: 20px;
+            font-weight: 600;
+            color: var(--color-text-light);
+            text-transform: uppercase;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        .nav-links a:not(.active):hover {
+            background-color: var(--color-bg-section);
+            color: var(--color-accent);
+        }
+
+        .nav-links a.active {
+            color: var(--color-bg-deep);
+            background-color: var(--color-accent);
+            box-shadow: 0 0 10px rgba(255, 179, 0, 0.7);
+        }
+
+        .nav-button {
+            margin-left: 20px;
+            font-weight: 600;
+            color: var(--color-text-light);
+            text-transform: uppercase;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background-color 0.3s, color 0.3s;
+            background-color: transparent;
+            border: 2px solid var(--color-border);
+            cursor: pointer;
+        }
+        .nav-button:hover {
+            background-color: var(--color-bg-section);
+            border-color: var(--color-accent);
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px 80px;
+        }
+
+        .section-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.2em;
+            color: var(--color-accent);
+            text-align: center;
+            border-bottom: 2px solid var(--color-border);
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .grid-item {
+            padding: 20px;
+            background-color: #2F2F2F;
+            border-radius: 6px;
+            border-left: 3px solid var(--color-accent);
+        }
+
+        .grid-item h3 {
+            font-size: 1.1em;
+            margin-top: 0;
+            color: var(--color-text-light);
+        }
+
+        .mt-3 { margin-top: 30px; }
+        .font-small { font-size: 0.9em; }
+        .color-dim { color: var(--color-text-dim); }
+        .color-accent { color: var(--color-accent); }
+
+        .user-profile-container { display: flex; align-items: center; gap: 15px; }
+        #user-email-display { color: var(--color-text-light); font-size: 14px; }
+        .logout-button { background-color: var(--color-error) !important; border-color: var(--color-error) !important; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">WHEELIE LIFE</a>
+            <div class="nav-links">
+                <a href="index.html"><i class="fas fa-file-download"></i> Descarga</a>
+                <a href="overview.html" class="active"><i class="fas fa-info-circle"></i> Visión General</a>
+                <a href="documentation.html"><i class="fas fa-book-open"></i> Documentación</a>
+                <a href="shop.html"><i class="fas fa-store"></i> Catálogo</a>
+                <a href="changelog.html"><i class="fas fa-history"></i> Historial</a>
+                <a href="forum.html"><i class="fas fa-comments"></i> Foro</a>
+            </div>
+            <div class="auth-buttons">
+                <a href="login.html" id="login-nav-btn" class="nav-button">
+                    <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
+                </a>
+                <div id="user-profile-container" class="user-profile-container" style="display: none;">
+                    <span id="user-email-display"></span>
+                    <button id="logout-btn" class="nav-button logout-button">
+                        <i class="fas fa-sign-out-alt"></i> Salir
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <h2 class="section-title">VISIÓN GENERAL Y FILOSOFÍA DE JUEGO <i class="fas fa-info-circle"></i></h2>
+        
+        <div class="grid-3">
+            <div class="grid-item">
+                <h3><i class="fas fa-balance-scale"></i> Jugabilidad: El Wheelie</h3>
+                <p>El núcleo del juego es mantener el equilibrio de la motocicleta en una rueda (*wheelie*). La inclinación constante y precisa es necesaria para compensar la aceleración y la gravedad.</p>
+            </div>
+            <div class="grid-item">
+                <h3><i class="fas fa-star"></i> Estilo Pixel Art Clásico</h3>
+                <p>El juego renderiza a una baja resolución interna de <strong>400x200 píxeles</strong> (escalada a <strong>1200x720</strong> en la ventana final), capturando la estética clásica de 16 bits.</p>
+            </div>
+            <div class="grid-item">
+                <h3><i class="fas fa-money-bill-wave"></i> Progresión y Economía</h3>
+                <p>La moneda se gana a razón de <strong>1$ por cada 10 metros</strong> recorridos. Este dinero es persistente (guardado en `player_data.json`) y se usa para desbloquear skins y mejoras permanentes.</p>
+            </div>
+        </div>
+
+        <article class="mt-3" style="border-top: 1px solid var(--color-border); padding-top: 20px;">
+            <h3 class="color-accent"><i class="fas fa-globe-americas"></i> Mundos y Distancia Máxima</h3>
+            <p>El principal desafío es optimizar la velocidad y el arrastre para alcanzar la máxima distancia. Las skins con bonificaciones altas de `acceleration_bonus` y baja `drag_reduction` son clave para batir récords.</p>
+            <p class="font-small color-dim">El récord de distancia (`max_distance`) se guarda en `player_data.json` y se actualiza al final de cada bucle de juego.</p>
+        </article>
+    </main>
+
+    <script src="js/auth.js"></script>
+    <script>
+        const user = getCurrentUser();
+        if (user) {
+            document.getElementById('login-nav-btn').style.display = 'none';
+            document.getElementById('user-profile-container').style.display = 'flex';
+            document.getElementById('user-email-display').textContent = user.username;
+        }
+        document.getElementById('logout-btn').addEventListener('click', logout);
+    </script>
+</body>
+</html>
